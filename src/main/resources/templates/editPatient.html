@@ -13,7 +13,7 @@
 <body>
 <div layout:fragment="content1">
     <div class="col-md-6 offset-3">
-    <form method="post" th:action="@{save(page=${page}, Keyword=${Keyword})}">
+    <form method="post" th:action="@{/admin/save(page=${page}, Keyword=${Keyword})}">
         <div>
             <label>ID :</label>
             <label th:text="${patient.id}">ID</label>

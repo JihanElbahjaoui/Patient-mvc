@@ -2,6 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="templates1"
 >
 
@@ -16,7 +17,7 @@
     <div class="card">
         <div class="card-header">Liste des patients</div>
         <div class="card-body">
-            <form method="get" th:action="@{index}">
+            <form method="get" th:action="@{/user/index}">
                 <label>Key word</label>
                 <input type="text" name="Keyword" th:value="${Keyword}">
                 <button type="submit" class="btn btn-primary">Chercher</button>
@@ -34,13 +35,13 @@
                     <td th:text="${p.dateNaissance}"></td>
                     <td th:text="${p.malade}"></td>
                     <td th:text="${p.score}"></td>
-                    <td>
-                        <a onclick="return confirm('Etes vous sur?')" class="btn btn-danger" th:href="@{delete(id=${p.id}, Keyword=${Keyword},page=${currentPage})}">
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a onclick="return confirm('Etes vous sur?')" class="btn btn-danger" th:href="@{/admin/delete(id=${p.id}, Keyword=${Keyword},page=${currentPage})}">
                             Delete
                         </a>
                     </td>
-                    <td>
-                        <a class="btn btn-success" th:href="@{editPatient(id=${p.id}, Keyword=${Keyword},page=${currentPage})}">
+                    <td sec:authorize="hasRole('ADMIN')">
+                        <a class="btn btn-success" th:href="@{/admin/editPatient(id=${p.id}, Keyword=${Keyword},page=${currentPage})}">
                             Edit
                         </a>
                     </td>
@@ -51,7 +52,7 @@
                 <li th:each="page,status:${pages}">
                     <a th:class="${status.index==currentPage?'btn btn-primary ms-1':'btn btn-outline-primary  ms-1'}"
                        th:text="${status.index}"
-                       th:href="@{index(page=${status.index}, Keyword=${Keyword})}"
+                       th:href="@{/user/index(page=${status.index}, Keyword=${Keyword})}"
                     ></a>
                 </li>
             </ul>
